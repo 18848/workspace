@@ -13,6 +13,8 @@ tokens = ("TOTAL", "STATUS", "OFFSET", "TEXT")
 
 states = (("testcase", "exclusive"), ("comment", "exclusive"))
 
+path = "D:\\Uni\\Dev\\Workspace\\output\\teste1.t"
+
 
 # @lex.TOKEN(tap_total)
 def t_TOTAL(t):
@@ -58,7 +60,7 @@ def t_comment_error(t):
 
 lexer = lex.lex()
 print(lexer.current_state())
-lexer.input(readFile("D:\\Uni\\Dev\\Workspace\\output\\teste1.t"))
+lexer.input(readFile(path))
 
 
 total = 0
