@@ -4,90 +4,83 @@ import ply.lex as lex
 import re
 from utils import readFile
 
-# tap_total = r"[0-9]+..[0-9]+\n"
-# tap_status = r"ok\s|not\sok\s"
-# tap_offset = r"[0-9]+"
-# tap_text = r"(\s[A-Z][a-z]*)+\n"
+tokens = ('TOTAL', 'STATUS', 'OFFSET', 'TEXT', 'SUBTEST')
 
-tokens = ("TOTAL", "STATUS", "OFFSET", "TEXT")
-
-states = (("testcase", "exclusive"), ("comment", "exclusive"))
-
-path = "D:\\Uni\\Dev\\Workspace\\output\\teste1.t"
-
-
-# @lex.TOKEN(tap_total)
-def t_TOTAL(t):
-    r"1\.\.[0-9]+\n"
-    t.lexer.begin("testcase")
-    pass
+t_ignore = " \t"
+t_TOTAL = r"1..[1-9][0-9]*\n"
+t_STATUS = r"ok|not\sok"
+t_OFFSET = r"[1-9][0-9]*"
+t_TEXT = r"-(\s([\w\d]*))*\n"
+indentation = r"\t+|(\s\s\s\s)+"
+t_SUBTEST = indentation + r"^\#" + t_STATUS + t_OFFSET + t_TEXT
 
 
-# @lex.TOKEN(tap_status)
-def t_testcase_STATUS(t):
-    r"ok |not ok "
-    t.lexer.begin("testcase")
-    pass
+class TAPData:
 
+    def __init__(self):
+        self.total = 0
+        self.offset = []
+        self.test = [(), ]
+        self.status = []
+        self.comment = []
+        self.subtests = [(), ]
 
-# @lex.TOKEN(tap_offset)
-def t_testcase_OFFSET(t):
-    r"[0-9]+"
-    t.lexer.begin("comment")
-    pass
+    def show(self):
+        for x in range(1, len(self.test)):
+            print(f"test {self.test.__getitem__(x)[0]} : {self.test.__getitem__(x)[1]} {self.test.__getitem__(x)[2]}")
+        for x in range(1, len(self.subtests)):
+            print(f"subtest {self.subtests.__getitem__(x)[0]} :"
+                  f" {self.subtests.__getitem__(x)[1]} "
+                  f"{self.subtests.__getitem__(x)[2]}")
 
+    def rec_STATUS(self, t):
+        test_status = re.fullmatch(r"(ok|not ok)", t.value)
+        self.status = self.status + [test_status.group(0), ]
 
-# @lex.TOKEN(tap_text)
-def t_comment_TEXT(t):
-    r"(.*)+\n"
-    t.lexer.begin("testcase")
-    pass
+    def rec_OFFSET(self, t):
+        test_pos = re.fullmatch(r"([1-9][0-9]*)", t.value)
+        self.offset = self.offset + [test_pos.group(0), ]
+
+    def rec_TEXT(self, t):
+        test_comment = re.fullmatch(r"-(\s([\w\d]*))*\n", t.value)
+        self.comment = self.comment + [test_comment.group(0), ]
+        self.test = self.test + [(self.status.__getitem__(-1),
+                                  self.offset.__getitem__(-1),
+                                  self.comment.__getitem__(-1))]
+
+    def rec_SUBTEST(self, t):
+        self.rec_STATUS(t)
+        self.rec_OFFSET(t)
+        subtest_comment = re.fullmatch(r"-(\s([\w\d]*))*\n", t.value)  # TO CLEAR !!!!WARNING!!!!
+        self.comment = self.comment + [subtest_comment.group(0), ]
+        self.subtests = self.subtests + [
+            (self.status.__getitem__(-1),
+             self.offset.__getitem__(-1),
+             self.comment.__getitem__(-1))]
+
+# states = (("testcase", "exclusive"), ("comment", "exclusive"))
 
 
 def t_error(t):
-    print("AN ERROR OCCURRED !!!")
+    print(f"AN ERROR OCCURRED !!! '{t.value}'")
     exit(1)
 
 
-def t_testcase_error(t):
-    print("\tTESTCASE ERROR !!!")
-    t_error(t)
-
-def t_comment_error(t):
-    print("\tCOMMENT ERROR !!!")
-    t_error(t)
-
-
 lexer = lex.lex()
-print(lexer.current_state())
-lexer.input(readFile(path))
+lexer.input(readFile("..\\output\\teste1.t"))
 
-
-total = 0
-last_status = None
-last_offset = 0
-
-print("b4 for")
+global data
 
 for token in iter(lexer.token, None):
-    print("in for")
-    print(token.value)
-    if token.type == "TOTAL":
-        total = re.fullmatch(r"1\.\.[0-9]+", token.value)
-    elif token.type == "STATUS":
-        last_status = token.value
-    elif token.type == "OFFSET":
-        last_offset = token.value
-        # captures = re.fullmatch(r"([0-9]+):[0-9]+", token.value)
-        # if int(captures.group(1)) >= 3:
-        #     if last_interpreter in interpreter_counts:
-        #         interpreter_counts[last_interpreter] += 1
-        #     else:
-        #         interpreter_counts[last_interpreter] = 1
-    else:
-        print(token)
+    if token.type == 'TOTAL':
+        data = TAPData()
+    elif token.type == 'STATUS':
+        data.rec_STATUS(token)
+    elif token.type == 'OFFSET':
+        data.rec_OFFSET(token)
+    elif token.type == 'TEXT':
+        data.rec_TEXT(token)
+    elif token.type == 'SUBTEST':
+         data.rec_SUBTEST(token)
 
-print(total)
-print(last_status)
-print(last_offset)
-print("\n read successful")
+data.show()
