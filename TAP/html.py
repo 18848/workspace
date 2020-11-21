@@ -1,17 +1,18 @@
 
 class Test:
-    def __init__(self, id, ok, desc,nivel):
-        self.id = id
-        self.ok = ok
-        self.desc = desc
-        self.nivel=nivel
-        self.subtests=[]
+    def __init__(self, status, offset, text, comment, test, subtests):
+        self.status = status
+        self.offset = offset
+        self.text = text
+        self.comment = comment
+        self.test = test #[("", "", "", -1), ]
+        self.subtests = subtests #[("", "", "", -1), ]
 
     def getPrint(self):
-        if self.ok:
-            return "ok %s %s" % (self.id, self.desc)
+        if self.ok == "ok":
+            return "%s %s" % (self.status, self.offset)
         else:
-            return "not ok %s %s" % (self.id, self.desc)
+            return "%s %s" % (self.status, self.offset)
 
     def printTests(self):
         tabs=""

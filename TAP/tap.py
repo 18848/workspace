@@ -3,6 +3,7 @@
 import ply.lex as lex
 import re
 from utils import readFile
+from html import Test
 
 tokens = ('TOTAL', 'STATUS', 'OFFSET', 'TEXT', 'SUBTEST')
 
@@ -84,3 +85,4 @@ for token in iter(lexer.token, None):
          data.rec_SUBTEST(token)
 
 data.show()
+Test.getPrint(data)
