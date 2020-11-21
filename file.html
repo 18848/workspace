@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+    .row.content {height: 1500px}
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height: auto;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-2 col-md-2 sidenav">
+      <h4>Processamento de Linguagens</h4>
+    </div>
+
+
+    <div class="col-sm-10 col-md-10">
+      <h1>Testes</h1>
+      <hr>
+
+      <!-- Sucesso -->
+      <p><h2><a data-toggle="collapse" href="#collapseTeste1" class="text-success">
+          Teste 1
+      </a></h2></p>
+      <div class="collapse" id="collapseTeste1">
+      </div>
+
+      <!-- Insucesso -->
+      <p><h2><a data-toggle="collapse" href="#collapseTeste2" class="text-danger">
+          Teste 2
+      </a></h2></p>
+      <div class="collapse" id="collapseTeste2">
+      </div>
+
+      <!-- Teste com Sucesso -->
+      <p><h2><a data-toggle="collapse" href="#collapseTeste3" class="text-success">
+          Teste 3
+      </a></h2></p>
+      <div class="collapse" id="collapseTeste3">
+        <h4><a class="text-success">ok 1 - this is ok</a></h4>
+        <h4><a class="text-success">ok 2 - this is ok</a></h4>
+      </div>
+
+      <!-- Teste sem Sucesso -->
+      <p><h2><a data-toggle="collapse" href="#collapseTeste4" class="text-danger">
+          Teste 4
+      </a></h2></p>
+      <div class="collapse" id="collapseTeste4">
+        <h4><a class="text-danger">not ok 1 - this is not ok</a></h4>
+        <h4><a class="text-success">ok 2 - this is ok</a></h4>
+      </div>
+
+      <!-- Teste com Sucesso e 1 subteste -->
+      <p><h2><a data-toggle="collapse" href="#collapseTeste5" class="text-success">
+          Teste 5
+      </a></h2></p>
+      <div class="collapse" id="collapseTeste5">
+        <h4><a class="text-success">ok 1 - this is ok</a></h4>
+        <h4><a class="text-success">ok 2 - this is ok</a></h4>
+        <h4><a class="text-success">&emsp;ok 2.1 - this is ok</a></h4>
+        <h4><a class="text-success">&emsp;ok 2.2 - this is ok</a></h4>
+        <h4><a class="text-success">ok 3 - this is ok</a></h4>
+      </div>
+
+      <!-- Teste com Sucesso e 1 subteste -->
+      <p><h2><a data-toggle="collapse" href="#collapseTeste6" class="text-danger">
+          Teste 6
+      </a></h2></p>
+      <div class="collapse" id="collapseTeste6">
+        <h4><a class="text-success">ok 1 - this is ok</a></h4>
+        <h4><a class="text-success">ok 2 - this is ok</a></h4>
+        <h4><a class="text-success">&emsp;ok 2.1 - this is ok</a></h4>
+        <h4><a class="text-success">&emsp;ok 2.2 - this is ok</a></h4>
+        <h4><a class="text-danger">&emsp;&emsp;not ok 2.2.1 - this is not ok</a></h4>
+        <h4><a class="text-success">&emsp;&emsp;ok 2.2.2 - this is ok</a></h4>
+        <h4><a class="text-success">&emsp;&emsp;&emsp;ok 2.2.2.1 - this is ok</a></h4>
+        <h4><a class="text-success">&emsp;&emsp;&emsp;ok 2.2.2.2 - this is ok</a></h4>
+        <h4><a class="text-danger">&emsp;&emsp;&emsp;&emsp;not ok 2.2.2.2.1 - this is not ok</a></h4>
+        <h4><a class="text-danger">&emsp;&emsp;&emsp;ok 2.2.2.3 - this is not ok</a></h4>
+        <h4><a class="text-success">&emsp;&emsp;&emsp;ok 2.2.2.4 - this is ok</a></h4>
+        <h4><a class="text-danger">&emsp;not ok 2.3 - this is not ok</a></h4>
+        <h4><a class="text-success">ok 3 - this is ok</a></h4>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid">
+  <p>Footer Text</p>
+</footer>
+
+</body>
+</html>
