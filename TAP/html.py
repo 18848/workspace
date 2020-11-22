@@ -1,24 +1,24 @@
-def getPrint(data):
+def get_print(data):
     file = open("..\\output\\main.html", "w")
     file.write(getHeader())
     file.write(getBodyBegin())
 
-    testNum = '1'
+    test_num = '1'
 
     flag = 0
     for x in range(0, len(data.test)):
 
         if data.test.__getitem__(x)[0] != 'ok':
             flag = 1
-            break;
+            break
 
     if flag == 0:
-        file.write(allTestCorrect(testNum))
+        file.write(allTestCorrect(test_num))
     else:
-        file.write(notAllTestCorrect(testNum))
+        file.write(notAllTestCorrect(test_num))
 
     count = 0
-    nInorrect = 0
+    n_incorrect = 0
     for x in range(0, len(data.test)):
 
         if data.test.__getitem__(x)[-1] > 0:
@@ -31,7 +31,7 @@ def getPrint(data):
                 file.write(
                     testIncorrect(data.subtest.__getitem__(x)[0], data.subtest.__getitem__(x)[1],
                                   data.subtest.__getitem__(x)[2], data.subtest.__getitem__(x)[-1]))
-                nInorrect = nInorrect + 1
+                n_incorrect = n_incorrect + 1
 
         else:
             if data.test.__getitem__(x)[0] == 'ok':
@@ -42,7 +42,7 @@ def getPrint(data):
                 file.write(
                     testIncorrect(data.test.__getitem__(x)[0], data.test.__getitem__(x)[1], data.test.__getitem__(x)[2],
                                   0))
-                nInorrect = nInorrect + 1
+                n_incorrect = n_incorrect + 1
         #     for y in range(0, data.test.__getitem__(x)[-1]):
         #         print((data.subtests.__getitem__(count)[-1] * "\t") +
         #               f"subtest {data.subtests.__getitem__(count)[0]} : "
@@ -58,7 +58,7 @@ def getPrint(data):
         #               f"{data.subtests.__getitem__(count)[2]}"),
         #         count += 1
 
-    file.write(testDefs(len(data.test), nInorrect))
+    file.write(testDefs(len(data.test), n_incorrect))
     file.write(testEnd())
     file.write(getBodyEnd())
     file.close()
@@ -147,20 +147,20 @@ def notAllTestCorrect(data):
 
 
 def testEnd():
-    return ('''</div>''')
+    return '''</div>'''
 
 
 def tab():
-    return ("&emsp;")
+    return "&emsp;"
 
 
 def testCorrect(status, offset, text, level):
-    return ('''<h4><a class="text-success">''' + tab() * level + status + ''' ''' + offset + ''' ''' + text +
+    return ('''<h4><a class="text-success">''' + (tab() * level) + status + ''' ''' + offset + ''' ''' + text +
             '''</a></h4>''')
 
 
 def testIncorrect(status, offset, text, level):
-    return ('''<h4><a class="text-danger"> ''' + tab() * level + status + ''' ''' + offset + ''' ''' + text +
+    return ('''<h4><a class="text-danger"> ''' + (tab() * level) + status + ''' ''' + offset + ''' ''' + text +
             '''</a></h4>''')
 
 
