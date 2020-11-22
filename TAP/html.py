@@ -1,5 +1,4 @@
 def getPrint(data):
-
     file = open("..\\output\\main.html", "w")
     file.write(getHeader())
     file.write(getBodyBegin())
@@ -11,6 +10,7 @@ def getPrint(data):
 
         if data.test.__getitem__(x)[0] != 'ok':
             flag = 1
+            break;
 
     if flag == 0:
         file.write(allTestCorrect(testNum))
@@ -18,24 +18,31 @@ def getPrint(data):
         file.write(notAllTestCorrect(testNum))
 
     count = 0
+    nInorrect = 0
     for x in range(0, len(data.test)):
 
         if data.test.__getitem__(x)[-1] > 0:
             print("tem sub testes")
             if data.subtest.__getitem__(x)[0] == 'ok':
                 file.write(
-                testCorrect(data.subtest.__getitem__(x)[0], data.subtest.__getitem__(x)[1], data.subtest.__getitem__(x)[2], data.subtest.__getitem__(x)[-1]))
+                    testCorrect(data.subtest.__getitem__(x)[0], data.subtest.__getitem__(x)[1],
+                                data.subtest.__getitem__(x)[2], data.subtest.__getitem__(x)[-1]))
             else:
                 file.write(
-                testIncorrect(data.subtest.__getitem__(x)[0], data.subtest.__getitem__(x)[1], data.subtest.__getitem__(x)[2], data.subtest.__getitem__(x)[-1]))
+                    testIncorrect(data.subtest.__getitem__(x)[0], data.subtest.__getitem__(x)[1],
+                                  data.subtest.__getitem__(x)[2], data.subtest.__getitem__(x)[-1]))
+                nInorrect = nInorrect + 1
 
         else:
             if data.test.__getitem__(x)[0] == 'ok':
                 file.write(
-                testCorrect(data.test.__getitem__(x)[0], data.test.__getitem__(x)[1], data.test.__getitem__(x)[2], 0))
+                    testCorrect(data.test.__getitem__(x)[0], data.test.__getitem__(x)[1], data.test.__getitem__(x)[2],
+                                0))
             else:
                 file.write(
-                testIncorrect(data.test.__getitem__(x)[0], data.test.__getitem__(x)[1], data.test.__getitem__(x)[2], 0))
+                    testIncorrect(data.test.__getitem__(x)[0], data.test.__getitem__(x)[1], data.test.__getitem__(x)[2],
+                                  0))
+                nInorrect = nInorrect + 1
         #     for y in range(0, data.test.__getitem__(x)[-1]):
         #         print((data.subtests.__getitem__(count)[-1] * "\t") +
         #               f"subtest {data.subtests.__getitem__(count)[0]} : "
@@ -43,8 +50,6 @@ def getPrint(data):
         #               f"{data.subtests.__getitem__(count)[2]}"),
         #         count += 1
 
-
-        #       f"  subtests : {data.test.__getitem__(x)[3]}")
         # if data.test.__getitem__(x)[-1] > 0:
         #     for y in range(0, data.test.__getitem__(x)[-1]):
         #         print((data.subtests.__getitem__(count)[-1] * "\t") +
@@ -53,7 +58,7 @@ def getPrint(data):
         #               f"{data.subtests.__getitem__(count)[2]}"),
         #         count += 1
 
-
+    file.write(testDefs(len(data.test), nInorrect))
     file.write(testEnd())
     file.write(getBodyEnd())
     file.close()
@@ -118,7 +123,7 @@ def getBodyEnd():
                 </div>
                 
                 <footer class="container-fluid">
-                  <p>José Cosgrove 18826 & André Cardoso 18848</p>
+                  <p>Jose Cosgrove 18826 & Andre Cardoso 18848</p>
                 </footer>
                 
                 </body>
@@ -126,7 +131,7 @@ def getBodyEnd():
 
 
 def allTestCorrect(data):
-    return('''<p><h2><a data-toggle="collapse" href="#collapseTeste''' + data + '''" class="text-success">
+    return ('''<p><h2><a data-toggle="collapse" href="#collapseTeste''' + data + '''" class="text-success">
       Teste ''' + data + '''
       </a></h2></p>
       <div class="collapse" id="collapseTeste''' + data + '''">
@@ -134,14 +139,15 @@ def allTestCorrect(data):
 
 
 def notAllTestCorrect(data):
-    return('''<p><h2><a data-toggle="collapse" href="#collapseTeste''' + data + '''" class="text-danger">
+    return ('''<p><h2><a data-toggle="collapse" href="#collapseTeste''' + data + '''" class="text-danger">
           Teste ''' + data + '''
       </a></h2></p>
       <div class="collapse" id="collapseTeste''' + data + '''">
       ''')
 
+
 def testEnd():
-    return('''</div>''')
+    return ('''</div>''')
 
 
 def tab():
@@ -149,10 +155,15 @@ def tab():
 
 
 def testCorrect(status, offset, text, level):
-    return('''<h4><a class="text-success">''' + tab()*level + status + ''' ''' + offset + ''' ''' + text + '''</a></h4>'''
-       )
+    return ('''<h4><a class="text-success">''' + tab() * level + status + ''' ''' + offset + ''' ''' + text +
+            '''</a></h4>''')
 
 
 def testIncorrect(status, offset, text, level):
-    return('''<h4><a class="text-danger"> ''' + tab()*level + status + ''' ''' + offset + ''' ''' + text + '''</a></h4>'''
-        )
+    return ('''<h4><a class="text-danger"> ''' + tab() * level + status + ''' ''' + offset + ''' ''' + text +
+            '''</a></h4>''')
+
+
+def testDefs(total, incorrect):
+    return '''<h5><br><p>Total de Testes: ''' + str(total) + '''</p><p>Percentagem de Falhas: ''' + str(
+        (incorrect / total) * 100) + '''%</p></h5>'''

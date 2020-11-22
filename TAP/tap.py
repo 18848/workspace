@@ -164,6 +164,6 @@ for token in iter(lexer.token, None):
         flag += 1
         pass
 
-data.show()
+# data.show()
 # data.html()
 getPrint(data)
