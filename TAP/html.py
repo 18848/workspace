@@ -20,12 +20,28 @@ def getPrint(data):
     count = 0
     for x in range(0, len(data.test)):
 
-        if data.test.__getitem__(x)[0] == 'ok':
-            file.write(
-                testCorrect(data.test.__getitem__(x)[0], data.test.__getitem__(x)[1], data.test.__getitem__(x)[2], 0))
+        if data.test.__getitem__(x)[-1] > 0:
+            print("tem sub testes")
+            if data.subtest.__getitem__(x)[0] == 'ok':
+                file.write(
+                testCorrect(data.subtest.__getitem__(x)[0], data.subtest.__getitem__(x)[1], data.subtest.__getitem__(x)[2], data.subtest.__getitem__(x)[-1]))
+            else:
+                file.write(
+                testIncorrect(data.subtest.__getitem__(x)[0], data.subtest.__getitem__(x)[1], data.subtest.__getitem__(x)[2], data.subtest.__getitem__(x)[-1]))
+
         else:
-            file.write(
+            if data.test.__getitem__(x)[0] == 'ok':
+                file.write(
+                testCorrect(data.test.__getitem__(x)[0], data.test.__getitem__(x)[1], data.test.__getitem__(x)[2], 0))
+            else:
+                file.write(
                 testIncorrect(data.test.__getitem__(x)[0], data.test.__getitem__(x)[1], data.test.__getitem__(x)[2], 0))
+        #     for y in range(0, data.test.__getitem__(x)[-1]):
+        #         print((data.subtests.__getitem__(count)[-1] * "\t") +
+        #               f"subtest {data.subtests.__getitem__(count)[0]} : "
+        #               f"{data.subtests.__getitem__(count)[1]} "
+        #               f"{data.subtests.__getitem__(count)[2]}"),
+        #         count += 1
 
 
         #       f"  subtests : {data.test.__getitem__(x)[3]}")
@@ -102,7 +118,7 @@ def getBodyEnd():
                 </div>
                 
                 <footer class="container-fluid">
-                  <p>Footer Text</p>
+                  <p>José Cosgrove 18826 & André Cardoso 18848</p>
                 </footer>
                 
                 </body>
