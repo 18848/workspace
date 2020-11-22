@@ -10,9 +10,9 @@ class Test:
 
     def getPrint(self):
         if self.ok == "ok":
-            return "%s %s" % (self.status, self.offset)
+            return "yes %s %s" % (self.status, self.offset)
         else:
-            return "%s %s" % (self.status, self.offset)
+            return "no %s %s" % (self.status, self.offset)
 
     def printTests(self):
         tabs=""

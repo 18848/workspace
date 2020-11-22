@@ -4,6 +4,7 @@ import sys
 import ply.lex as lex
 import re
 from utils import readFile
+from html import Test
 
 tokens = ('TOTAL', 'STATUS', 'OFFSET', 'TEXT', 'INDENT', 'COMMENT')
 
@@ -158,7 +159,7 @@ for token in iter(lexer.token, None):
     if token.type == 'TEXT':
         check1 = True
         check2 = False
-        data.rec_TEXT(token, False, "")
+        data.rec1_TEXT(token, False, "")
     if token.type == 'INDENT':
         check1 = check2 = False
         flag += 1
