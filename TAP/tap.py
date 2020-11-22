@@ -8,7 +8,6 @@ from html import get_print
 
 tokens = ('TOTAL', 'STATUS', 'OFFSET', 'TEXT', 'INDENT', 'COMMENT')
 
-# t_ignore = ""
 t_TOTAL = r"1..[1-9]\d*\n"
 t_STATUS = r"ok|not\ ok"
 t_OFFSET = r"\ ([1-9]\d*)(\ |\n)"
@@ -17,38 +16,46 @@ t_INDENT = r"\t|(\ \ \ \ )"
 t_COMMENT = r"\#((.*))*\n"
 
 flag = 0
-# global filename
+filename = []
 global fd
 
-filename = "..\\output\\teste3.t"
 
-# if len(sys.argv) != 2:
-#     print("Options:\n-Pass filename to analyze\n-Select from 1-7 for selected tests")
-#     exit(1)
-# else:
-#     if int(sys.argv[1]) == 1:
-#         filename = "..\\output\\teste1.t"
-#     elif int(sys.argv[1]) == 2:
-#         filename = "..\\output\\teste2.t"
-#     elif int(sys.argv[1]) == 3:
-#         filename = "..\\output\\teste3.t"
-#     elif int(sys.argv[1]) == 4:
-#         filename = "..\\output\\teste4.t"
-#     elif int(sys.argv[1]) == 5:
-#         filename = "..\\output\\teste5.t"
-#     elif int(sys.argv[1]) == 6:
-#         filename = "..\\output\\teste6.t"
-#     elif int(sys.argv[1]) == 7:
-#         filename = "..\\output\\teste7.t"
-#     else:
-#         try:
-#             filename = str()  # (sys.argv[1])
-#             fd = open(filename)
-#         except IOError as file_error:
-#             print(f"An exception ocurred:\n{file_error}")
-#             exit(1)
-#         finally:
-#             fd.close()
+if len(sys.argv) != 2:
+    print("Options:\n-Pass filename to analyze\n-Select from 0-7 for selected tests (0 -> selects all files)")
+    exit(1)
+else:
+    if int(sys.argv[1]) == 0:
+        filename.insert(0, "..\\output\\teste1.t")
+        filename.insert(1, "..\\output\\teste2.t")
+        filename.insert(2, "..\\output\\teste3.t")
+        filename.insert(3, "..\\output\\teste4.t")
+        filename.insert(4, "..\\output\\teste5.t")
+        filename.insert(5, "..\\output\\teste6.t")
+        filename.insert(6, "..\\output\\teste7.t")
+    elif int(sys.argv[1]) == 1:
+        filename.insert(0, "..\\output\\teste1.t")
+    elif int(sys.argv[1]) == 2:
+        filename.insert(1, "..\\output\\teste2.t")
+    elif int(sys.argv[1]) == 3:
+        filename.insert(2, "..\\output\\teste3.t")
+    elif int(sys.argv[1]) == 4:
+        filename.insert(3, "..\\output\\teste4.t")
+    elif int(sys.argv[1]) == 5:
+        filename.insert(4, "..\\output\\teste5.t")
+    elif int(sys.argv[1]) == 6:
+        filename.insert(5, "..\\output\\teste6.t")
+    elif int(sys.argv[1]) == 7:
+        filename.insert(6, "..\\output\\teste7.t")
+    else:
+        try:
+            for file_count in range(0, len(filename)):
+                filename[file_count] = str()  # (sys.argv[1])
+                fd = open(filename)
+        except IOError as file_error:
+            print(f"Impossible to open file:\n{file_error}")
+            exit(1)
+        finally:
+            fd.close()
 
 
 class TAPData:
@@ -134,44 +141,48 @@ def t_error(t):
     exit(1)
 
 
-lexer = lex.lex()
-lexer.input(read_file(filename))
+for file_count in range(0, len(filename)):
+    lexer = lex.lex()
+    lexer.input(read_file(filename[file_count]))
+    print(filename[file_count])
 
-data = TAPData()
-check1 = False
-check2 = False
-check3 = False
+    data = TAPData()
 
-for token in iter(lexer.token, None):
-    if token.type == 'TOTAL':
-        flag = 0
-    if token.type == 'STATUS':
-        if check1 and check2:
-            data.rec_TEXT(token, True, "")
-            check3 = True
-        check1 = True
-        data.rec_STATUS(token)
-    if token.type == 'OFFSET':
-        check2 = True
-        data.rec_OFFSET(token)
-    if token.type == 'COMMENT':
-        if check1 and check2:
-            if check3:
-                data.rec_TEXT(token, True, "")
-            else:
-                data.rec_TEXT(token, True, "")
-        else:
+    check1 = False
+    check2 = False
+    check3 = False
+
+    for token in iter(lexer.token, None):
+        if token.type == 'TOTAL':
             flag = 0
-        check1 = check2 = check3 = False
-    if token.type == 'TEXT':
-        if check1 and check2:
-            data.rec_TEXT(token, False, "")
-        check1 = check2 = False
-    if token.type == 'INDENT':
-        check1 = check2 = False
-        flag += 1
-        pass
+        if token.type == 'STATUS':
+            if check1 and check2:
+                data.rec_TEXT(token, True, "")
+                check3 = True
+            check1 = True
+            data.rec_STATUS(token)
+        if token.type == 'OFFSET':
+            check2 = True
+            data.rec_OFFSET(token)
+        if token.type == 'COMMENT':
+            if check1 and check2:
+                if check3:
+                    data.rec_TEXT(token, True, "")
+                else:
+                    data.rec_TEXT(token, True, "")
+            else:
+                flag = 0
+            check1 = check2 = check3 = False
+        if token.type == 'TEXT':
+            if check1 and check2:
+                data.rec_TEXT(token, False, "")
+            check1 = check2 = False
+        if token.type == 'INDENT':
+            check1 = check2 = False
+            flag += 1
+            pass
 
-# data.show()
-# data.html()
+    data.show()
+    print("\n")
+
 get_print(data)

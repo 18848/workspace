@@ -19,44 +19,30 @@ def get_print(data):
 
     count = 0
     n_incorrect = 0
-    for x in range(0, len(data.test)):
 
+    for x in range(0, len(data.test)):
+        if data.test.__getitem__(x)[0] == "ok":
+            file.write(
+                testCorrect(data.test.__getitem__(x)[0], data.test.__getitem__(x)[1], data.test.__getitem__(x)[2],
+                            0))
+        else:
+            file.write(
+                testIncorrect(data.test.__getitem__(x)[0], data.test.__getitem__(x)[1], data.test.__getitem__(x)[2],
+                              0))
+            n_incorrect = n_incorrect + 1
         if data.test.__getitem__(x)[-1] > 0:
             print("tem sub testes")
-            if data.subtest.__getitem__(x)[0] == 'ok':
-                file.write(
-                    testCorrect(data.subtest.__getitem__(x)[0], data.subtest.__getitem__(x)[1],
-                                data.subtest.__getitem__(x)[2], data.subtest.__getitem__(x)[-1]))
-            else:
-                file.write(
-                    testIncorrect(data.subtest.__getitem__(x)[0], data.subtest.__getitem__(x)[1],
-                                  data.subtest.__getitem__(x)[2], data.subtest.__getitem__(x)[-1]))
-                n_incorrect = n_incorrect + 1
-
-        else:
-            if data.test.__getitem__(x)[0] == 'ok':
-                file.write(
-                    testCorrect(data.test.__getitem__(x)[0], data.test.__getitem__(x)[1], data.test.__getitem__(x)[2],
-                                0))
-            else:
-                file.write(
-                    testIncorrect(data.test.__getitem__(x)[0], data.test.__getitem__(x)[1], data.test.__getitem__(x)[2],
-                                  0))
-                n_incorrect = n_incorrect + 1
-        #     for y in range(0, data.test.__getitem__(x)[-1]):
-        #         print((data.subtests.__getitem__(count)[-1] * "\t") +
-        #               f"subtest {data.subtests.__getitem__(count)[0]} : "
-        #               f"{data.subtests.__getitem__(count)[1]} "
-        #               f"{data.subtests.__getitem__(count)[2]}"),
-        #         count += 1
-
-        # if data.test.__getitem__(x)[-1] > 0:
-        #     for y in range(0, data.test.__getitem__(x)[-1]):
-        #         print((data.subtests.__getitem__(count)[-1] * "\t") +
-        #               f"subtest {data.subtests.__getitem__(count)[0]} : "
-        #               f"{data.subtests.__getitem__(count)[1]} "
-        #               f"{data.subtests.__getitem__(count)[2]}"),
-        #         count += 1
+            for y in range(0, len(data.subtest)):
+                if data.subtest.__getitem__(count)[0] == "ok":
+                    file.write(
+                        testCorrect(data.subtest.__getitem__(count)[0], data.subtest.__getitem__(count)[1],
+                                    data.subtest.__getitem__(count)[2], data.subtest.__getitem__(count)[-1]))
+                else:
+                    file.write(
+                        testIncorrect(data.subtest.__getitem__(count)[0], data.subtest.__getitem__(count)[1],
+                                      data.subtest.__getitem__(count)[2], data.subtest.__getitem__(count)[-1]))
+                    n_incorrect = n_incorrect + 1
+                count += 1
 
     file.write(testDefs(len(data.test), n_incorrect))
     file.write(testEnd())
