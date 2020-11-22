@@ -4,7 +4,7 @@ import sys
 import ply.lex as lex
 import re
 from utils import readFile
-from html import Test
+from html import getPrint
 
 tokens = ('TOTAL', 'STATUS', 'OFFSET', 'TEXT', 'INDENT', 'COMMENT')
 
@@ -20,33 +20,35 @@ flag = 0
 global filename
 global fd
 
-if len(sys.argv) != 2:
-    print("Options:\n-Pass filename to analyze\n-Select from 1-7 for selected tests")
-    exit(1)
-else:
-    if int(sys.argv[1]) == 1:
-        filename = "..\\output\\teste1.t"
-    elif int(sys.argv[1]) == 2:
-        filename = "..\\output\\teste2.t"
-    elif int(sys.argv[1]) == 3:
-        filename = "..\\output\\teste3.t"
-    elif int(sys.argv[1]) == 4:
-        filename = "..\\output\\teste4.t"
-    elif int(sys.argv[1]) == 5:
-        filename = "..\\output\\teste5.t"
-    elif int(sys.argv[1]) == 6:
-        filename = "..\\output\\teste6.t"
-    elif int(sys.argv[1]) == 7:
-        filename = "..\\output\\teste7.t"
-    else:
-        try:
-            filename = str()  # (sys.argv[1])
-            fd = open(filename)
-        except IOError as file_error:
-            print(f"An exception ocurred:\n{file_error}")
-            exit(1)
-        finally:
-            fd.close()
+filename = "..\\output\\teste3.t"
+
+# if len(sys.argv) != 2:
+#     print("Options:\n-Pass filename to analyze\n-Select from 1-7 for selected tests")
+#     exit(1)
+# else:
+#     if int(sys.argv[1]) == 1:
+#         filename = "..\\output\\teste1.t"
+#     elif int(sys.argv[1]) == 2:
+#         filename = "..\\output\\teste2.t"
+#     elif int(sys.argv[1]) == 3:
+#         filename = "..\\output\\teste3.t"
+#     elif int(sys.argv[1]) == 4:
+#         filename = "..\\output\\teste4.t"
+#     elif int(sys.argv[1]) == 5:
+#         filename = "..\\output\\teste5.t"
+#     elif int(sys.argv[1]) == 6:
+#         filename = "..\\output\\teste6.t"
+#     elif int(sys.argv[1]) == 7:
+#         filename = "..\\output\\teste7.t"
+#     else:
+#         try:
+#             filename = str()  # (sys.argv[1])
+#             fd = open(filename)
+#         except IOError as file_error:
+#             print(f"An exception ocurred:\n{file_error}")
+#             exit(1)
+#         finally:
+#             fd.close()
 
 
 class TAPData:
@@ -68,15 +70,12 @@ class TAPData:
                   f"  subtests : {self.test.__getitem__(x)[3]}")
             if self.test.__getitem__(x)[-1] > 0:
                 for y in range(0, self.test.__getitem__(x)[-1]):
-                    print((self.subtests.__getitem__(count)[-1]*"\t") +
+                    print((self.subtests.__getitem__(count)[-1] * "\t") +
                           f"subtest {self.subtests.__getitem__(count)[0]} : "
                           f"{self.subtests.__getitem__(count)[1]} "
                           f"{self.subtests.__getitem__(count)[2]}"),
                     count += 1
-        # for x in range(0, len(self.subtests)):
-        #     print(f"subtest {self.subtests.__getitem__(x)[0]} :"
-        #           f" {self.subtests.__getitem__(x)[1]} "
-        #           f"{self.subtests.__getitem__(x)[2]}")
+
 
     def rec_STATUS(self, t):
         test_status = re.fullmatch(r"ok|not ok", t.value)
@@ -159,10 +158,12 @@ for token in iter(lexer.token, None):
     if token.type == 'TEXT':
         check1 = True
         check2 = False
-        data.rec1_TEXT(token, False, "")
+        data.rec_TEXT(token, False, "")
     if token.type == 'INDENT':
         check1 = check2 = False
         flag += 1
         pass
 
 data.show()
+# data.html()
+getPrint(data)
