@@ -24,19 +24,19 @@ if len(sys.argv) != 2:
     exit(1)
 else:
     if int(sys.argv[1]) == 1:
-        filename = ".\\output\\teste1.t"
+        filename = "..\\output\\teste1.t"
     elif int(sys.argv[1]) == 2:
-        filename = ".\\output\\teste2.t"
+        filename = "..\\output\\teste2.t"
     elif int(sys.argv[1]) == 3:
-        filename = ".\\output\\teste3.t"
+        filename = "..\\output\\teste3.t"
     elif int(sys.argv[1]) == 4:
-        filename = ".\\output\\teste4.t"
+        filename = "..\\output\\teste4.t"
     elif int(sys.argv[1]) == 5:
-        filename = ".\\output\\teste5.t"
+        filename = "..\\output\\teste5.t"
     elif int(sys.argv[1]) == 6:
-        filename = ".\\output\\teste6.t"
+        filename = "..\\output\\teste6.t"
     elif int(sys.argv[1]) == 7:
-        filename = ".\\output\\teste7.t"
+        filename = "..\\output\\teste7.t"
     else:
         try:
             filename = str()  # (sys.argv[1])
