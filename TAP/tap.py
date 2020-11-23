@@ -186,4 +186,5 @@ for file_count in range(0, len(filename)):
 
     data[file_count].show()
     print("\n")
-    get_print(data[file_count])
+
+get_print(data)

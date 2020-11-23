@@ -3,49 +3,56 @@ def get_print(data):
     file.write(getHeader())
     file.write(getBodyBegin())
 
-    test_num = '1'
+    for file_count in range(0, len(data)):
+        test_num = file_count + 1
 
-    flag = 0
-    for x in range(0, len(data.test)):
+        flag = 0
+        for x in range(0, len(data[file_count].test)):
 
-        if data.test.__getitem__(x)[0] != 'ok':
-            flag = 1
-            break
+            if data[file_count].test.__getitem__(x)[0] != 'ok':
+                flag = 1
+                break
 
-    if flag == 0:
-        file.write(allTestCorrect(test_num))
-    else:
-        file.write(notAllTestCorrect(test_num))
-
-    count = 0
-    n_incorrect = 0
-
-    for x in range(0, len(data.test)):
-        if data.test.__getitem__(x)[0] == "ok":
-            file.write(
-                testCorrect(data.test.__getitem__(x)[0], data.test.__getitem__(x)[1], data.test.__getitem__(x)[2],
-                            0))
+        if flag == 0:
+            file.write(allTestCorrect(test_num))
         else:
-            file.write(
-                testIncorrect(data.test.__getitem__(x)[0], data.test.__getitem__(x)[1], data.test.__getitem__(x)[2],
-                              0))
-            n_incorrect = n_incorrect + 1
-        if data.test.__getitem__(x)[-1] > 0:
-            print("tem sub testes")
-            for y in range(0, len(data.subtest)):
-                if data.subtest.__getitem__(count)[0] == "ok":
-                    file.write(
-                        testCorrect(data.subtest.__getitem__(count)[0], data.subtest.__getitem__(count)[1],
-                                    data.subtest.__getitem__(count)[2], data.subtest.__getitem__(count)[-1]))
-                else:
-                    file.write(
-                        testIncorrect(data.subtest.__getitem__(count)[0], data.subtest.__getitem__(count)[1],
-                                      data.subtest.__getitem__(count)[2], data.subtest.__getitem__(count)[-1]))
-                    n_incorrect = n_incorrect + 1
-                count += 1
+            file.write(notAllTestCorrect(test_num))
 
-    file.write(testDefs(len(data.test), n_incorrect))
-    file.write(testEnd())
+        count = 0
+        n_incorrect = 0
+
+        for x in range(0, len(data[file_count].test)):
+            if data[file_count].test.__getitem__(x)[0] == "ok":
+                file.write(
+                    testCorrect(data[file_count].test.__getitem__(x)[0], data[file_count].test.__getitem__(x)[1],
+                                data[file_count].test.__getitem__(x)[2],
+                                0))
+            else:
+                file.write(
+                    testIncorrect(data[file_count].test.__getitem__(x)[0], data[file_count].test.__getitem__(x)[1],
+                                  data[file_count].test.__getitem__(x)[2],
+                                  0))
+                n_incorrect = n_incorrect + 1
+            if data[file_count].test.__getitem__(x)[-1] > 0:
+                print("tem sub testes")
+                for y in range(0, len(data[file_count].subtest)):
+                    if data[file_count].subtest.__getitem__(count)[0] == "ok":
+                        file.write(
+                            testCorrect(data[file_count].subtest.__getitem__(count)[0],
+                                        data[file_count].subtest.__getitem__(count)[1],
+                                        data[file_count].subtest.__getitem__(count)[2],
+                                        data[file_count].subtest.__getitem__(count)[-1]))
+                    else:
+                        file.write(
+                            testIncorrect(data[file_count].subtest.__getitem__(count)[0],
+                                          data[file_count].subtest.__getitem__(count)[1],
+                                          data[file_count].subtest.__getitem__(count)[2],
+                                          data[file_count].subtest.__getitem__(count)[-1]))
+                        n_incorrect = n_incorrect + 1
+                    count += 1
+
+        file.write(testDefs(len(data[file_count].test), n_incorrect))
+        file.write(testEnd())
     file.write(getBodyEnd())
     file.close()
 
@@ -117,18 +124,18 @@ def getBodyEnd():
 
 
 def allTestCorrect(data):
-    return ('''<p><h2><a data-toggle="collapse" href="#collapseTeste''' + data + '''" class="text-success">
-      Teste ''' + data + '''
+    return ('''<p><h2><a data-toggle="collapse" href="#collapseTeste''' + str(data) + '''" class="text-success">
+      Teste ''' + str(data) + '''
       </a></h2></p>
-      <div class="collapse" id="collapseTeste''' + data + '''">
+      <div class="collapse" id="collapseTeste''' + str(data) + '''">
       ''')
 
 
 def notAllTestCorrect(data):
-    return ('''<p><h2><a data-toggle="collapse" href="#collapseTeste''' + data + '''" class="text-danger">
-          Teste ''' + data + '''
+    return ('''<p><h2><a data-toggle="collapse" href="#collapseTeste''' + str(data) + '''" class="text-danger">
+          Teste ''' + str(data) + '''
       </a></h2></p>
-      <div class="collapse" id="collapseTeste''' + data + '''">
+      <div class="collapse" id="collapseTeste''' + str(data) + '''">
       ''')
 
 
