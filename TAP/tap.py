@@ -58,7 +58,7 @@ else:
             fd.close()
 
 
-class TAPData:
+class TAPdata:
 
     def __init__(self):
         self.status = ""
@@ -148,7 +148,7 @@ for file_count in range(0, len(filename)):
     lexer.input(read_file(filename[file_count]))
     print(filename[file_count])
 
-    data = TAPData()
+    data[file_count] = TAPdata[file_count]()
 
     check1 = False
     check2 = False
@@ -159,32 +159,32 @@ for file_count in range(0, len(filename)):
             flag = 0
         if token.type == 'STATUS':
             if check1 and check2:
-                data.rec_TEXT(token, True, "")
+                data[file_count].rec_TEXT(token, True, "")
                 check3 = True
             check1 = True
-            data.rec_STATUS(token)
+            data[file_count].rec_STATUS(token)
         if token.type == 'OFFSET':
             check2 = True
-            data.rec_OFFSET(token)
+            data[file_count].rec_OFFSET(token)
         if token.type == 'COMMENT':
             if check1 and check2:
                 if check3:
-                    data.rec_TEXT(token, True, "")
+                    data[file_count].rec_TEXT(token, True, "")
                 else:
-                    data.rec_TEXT(token, True, "")
+                    data[file_count].rec_TEXT(token, True, "")
             else:
                 flag = 0
             check1 = check2 = check3 = False
         if token.type == 'TEXT':
             if check1 and check2:
-                data.rec_TEXT(token, False, "")
+                data[file_count].rec_TEXT(token, False, "")
             check1 = check2 = False
         if token.type == 'INDENT':
             check1 = check2 = False
             flag += 1
             pass
 
-    data.show()
+    data[file_count].show()
     print("\n")
 
 get_print(data)
