@@ -34,7 +34,6 @@ def get_print(data):
                                   0))
                 n_incorrect = n_incorrect + 1
             if data[file_count].test.__getitem__(x)[-1] > 0:
-                print("tem sub testes")
                 for y in range(0, len(data[file_count].subtest)):
                     if data[file_count].subtest.__getitem__(count)[0] == "ok":
                         file.write(
