@@ -143,6 +143,7 @@ def t_error(t):
 
 global data
 
+
 for file_count in range(0, len(filename)):
     lexer = lex.lex()
     lexer.input(read_file(filename[file_count]))
@@ -186,5 +187,4 @@ for file_count in range(0, len(filename)):
 
     data.show()
     print("\n")
-
-get_print(data)
+    get_print(data)
