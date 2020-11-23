@@ -50,7 +50,7 @@ else:
         try:
             for file_count in range(0, len(filename)):
                 filename[file_count] = str()  # (sys.argv[1])
-                fd = open(filename)
+                fd = open(filename[file_count])
         except IOError as file_error:
             print(f"Impossible to open file:\n{file_error}")
             exit(1)
@@ -140,6 +140,8 @@ def t_error(t):
     print(f"AN ERROR OCCURRED !!! '{t.value}'")
     exit(1)
 
+
+global data
 
 for file_count in range(0, len(filename)):
     lexer = lex.lex()
