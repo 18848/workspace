@@ -52,7 +52,7 @@ class TAPData:
         if empty:
             self.text = string
         else:
-            test_text = re.fullmatch(r"(-( (\w*))*\n)", t.value)
+            test_text = re.fullmatch(r"(-( [\w\d]*)*\n)", t.value)
             self.text = test_text.group(0).strip("\n")
         # Save Incidence
         # If test

@@ -11,7 +11,7 @@ tokens = ('TOTAL', 'STATUS', 'OFFSET', 'TEXT', 'INDENT', 'COMMENT')
 t_TOTAL = r"1..[1-9]\d*\n"
 t_STATUS = r"ok|not\ ok"
 t_OFFSET = r"\ ([1-9]\d*)(\ |\n)"
-t_TEXT = r"-(\ (\w*))*\n"
+t_TEXT = r"-(\ [\w\d]*)*\n"
 t_INDENT = r"\t|(\ \ \ \ )"
 t_COMMENT = r"\#((.*))*\n"
 
