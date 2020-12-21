@@ -1,17 +1,13 @@
 /* #include <stdlib.h> */
-#include <stdio.h>
-#include <limits.h>
 
 #include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h> /* Constantes para função open() */
 
 #include "ficheiro.h"
 #include "utilities.h"
 
 
-int mostraFicheiro(char* nome){
+int mostra(char* nome){
 	int fd, leitura;
 	char buffer[21];
 	fd = open(nome, O_RDONLY);
@@ -30,7 +26,7 @@ int mostraFicheiro(char* nome){
 	return 0;
 }
 
-int contaFicheiro(char* nome){
+int conta(char* nome){
 	int fd, leitura;
 	char buffer;
 	long int total = 0;
@@ -50,7 +46,7 @@ int contaFicheiro(char* nome){
 	}
 	/* -1 houve erro */
 	if (leitura == -1) return 1;
-	resultado = itostring(total);
+	itostring(total, &resultado);
 	write(STDOUT_FILENO, "Resultado: ", 12);
 	write(STDOUT_FILENO, resultado, sizeof(resultado));
 	write(STDOUT_FILENO, "\n", 2);
@@ -58,7 +54,6 @@ int contaFicheiro(char* nome){
 	return 0;
 }
 
-int apagaFicheiro(char* nome){
-	rename(nome, "");
-	return 0;
+int apaga(char* nome){
+	return unlink(nome);
 }
