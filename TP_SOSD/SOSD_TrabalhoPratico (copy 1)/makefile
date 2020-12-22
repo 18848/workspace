@@ -1,6 +1,6 @@
 all: Funcoes Program clean
 
-Funcoes: mostra conta apaga
+Funcoes: mostra conta apaga informa acrescenta lista
 
 utilities.o: funcoes/utilities.c funcoes/utilities.h
 	gcc -g -o utilities.o funcoes/utilities.c -c -W -Wall -ansi -pedantic
@@ -26,6 +26,27 @@ apaga: apaga.o
 apaga.o: funcoes/apaga.c
 	gcc -g -o apaga.o funcoes/apaga.c -c -W -Wall -ansi -pedantic
 
+informa: informa.o 
+	gcc -g -o informa informa.o
+	chmod u+x informa
+
+informa.o: funcoes/informa.c
+	gcc -g -o informa.o funcoes/informa.c -c -W -Wall -ansi -pedantic
+
+acrescenta: acrescenta.o 
+	gcc -g -o acrescenta acrescenta.o
+	chmod u+x acrescenta
+
+acrescenta.o: funcoes/acrescenta.c
+	gcc -g -o acrescenta.o funcoes/acrescenta.c -c -W -Wall -ansi -pedantic
+
+lista: lista.o 
+	gcc -g -o lista lista.o
+	chmod u+x lista
+
+lista.o: funcoes/lista.c
+	gcc -g -o lista.o funcoes/lista.c -c -W -Wall -ansi -pedantic
+
 Program: main.o utilities.o mysystem.o
 	gcc -g -o Program main.o utilities.o mysystem.o
 
@@ -39,4 +60,4 @@ clean:
 	rm -rf *o *~ 
 
 wipe:
-	rm -rf *o Program mostra conta apaga
+	rm -rf *o Program mostra conta apaga informa acrescenta lista

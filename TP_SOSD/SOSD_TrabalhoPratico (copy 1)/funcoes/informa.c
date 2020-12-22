@@ -1,28 +1,51 @@
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
+#include <pwd.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include <sys/wait.h>
-#include <fcntl.h> /* Constantes para função open() */
 
-#include "utilities.h"
+char* getFileType(int mode);
+char* getUserName(int id);
 
 int main(int argc, const char* argv[])
 {
-    int fd;
+	struct stat inf;
+
 	if(argc > 2){
-		write(STDERR_FILENO, "Too many arguments.\n", 21);
+		printf("Too many arguments.\n");
 		exit(EXIT_FAILURE);
 	} else if(argc < 2){
-		write(STDERR_FILENO, "Missing arguments.\n", 20);
+		printf("Missing arguments.\n");
 		exit(EXIT_FAILURE);
 	}
 
-	fd = open(argv[1], O_RDONLY);
-	/* Check file valid. If not, return error. */
-	if(fd < 0){
-		write(STDERR_FILENO, "Não foi possível abrir o ficheiro.", 37);
-		return WEXITSTATUS(fd);
+	if (stat(argv[1], &inf) == -1) {
+		perror("ERRO: ");
+		exit(EXIT_FAILURE);
 	}
 
-    
+	printf("Tipo de Ficheiro: %s\n", getFileType(inf.st_mode));
+	printf("I-node: %ld\n", inf.st_ino);
+	printf("Dono: %s\n", getUserName(inf.st_uid));
+
 	return 0;
+}
+
+char* getFileType(int mode){
+	if (S_ISREG(mode)){ return ("Ficheiro Normal"); }
+	if (S_ISDIR(mode)){ return ("Diretoria"); }
+	if (S_ISLNK(mode)){ return ("Link"); }
+	if (S_ISCHR(mode)){ return ("Caracteres"); }
+	if (S_ISBLK(mode)){ return ("Bloco"); }
+	if (S_ISFIFO(mode)){ return ("FIFO/pipe"); }
+	/*if (S_ISSOCK(mode)){ return ("Socket"); }*/
+	
+	return ("ERRO");
+}
+
+char* getUserName(int id){
+	struct passwd *pass;
+	pass = getpwuid(id);
+	return (pass->pw_name);
 }
