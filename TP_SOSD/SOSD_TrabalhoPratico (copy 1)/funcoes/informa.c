@@ -34,14 +34,14 @@ int main(int argc, const char* argv[])
 
 char* getFileType(int mode){
 	if (S_ISREG(mode)){ return ("Ficheiro Normal"); }
-	if (S_ISDIR(mode)){ return ("Diretoria"); }
-	if (S_ISLNK(mode)){ return ("Link"); }
-	if (S_ISCHR(mode)){ return ("Caracteres"); }
-	if (S_ISBLK(mode)){ return ("Bloco"); }
-	if (S_ISFIFO(mode)){ return ("FIFO/pipe"); }
+	else if (S_ISDIR(mode)){ return ("Diretoria"); }
+	else if (S_ISLNK(mode)){ return ("Link"); }
+	else if (S_ISCHR(mode)){ return ("Caracteres"); }
+	else if (S_ISBLK(mode)){ return ("Bloco"); }
+	else if (S_ISFIFO(mode)){ return ("FIFO/pipe"); }
 	/*if (S_ISSOCK(mode)){ return ("Socket"); }*/
 	
-	return ("ERRO");
+	else return ("ERRO");
 }
 
 char* getUserName(int id){
