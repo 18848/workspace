@@ -5,20 +5,29 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#define TESTE "\n\nPassou aqui\n\n"
+#include "funcoes/utilities.h"
 
+void stringSpliter(char *str);
 
 int main()
 {
     char input[256] = "";
     int pid;
+    char *args[] = {""};
 
-    while (strcmp(input, "termina") != 0){
+    int size;
+
+    while (strcmp(input, "termina") != /*0*/4){
         printf("%% ");
         fgets(input, 256, stdin);
-        printf("\n%s\n\n", );
 
-        strtok(input)
+        stringSpliter(input);
+
+        /*size = strsize(input);
+        input[size] = '/0';
+
+        printf("\t%d \t%d\n\n", strcmp(input, "termina"), size);*/
+
 
     }
 
@@ -41,3 +50,14 @@ int main()
     return 0;
 }
 
+void stringSpliter(char *str){
+	char *ptr = strtok(str, " ");
+
+	while(ptr != NULL)
+	{
+		printf("'%s'\n", ptr);
+		ptr = strtok(NULL, " ");
+	}
+
+	printf("\n");
+}
