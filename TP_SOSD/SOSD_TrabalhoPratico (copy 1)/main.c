@@ -1,47 +1,40 @@
-#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <unistd.h>
 
-#include "mysystem.h"
-#include "funcoes/utilities.h"
-
-int teste()
-{
-    char* cmd = "mostra";
-    int status = 0;
-    char* filename = "teste/mostra.txt";
-    write(STDOUT_FILENO, "\nFilename: ", 12);
-    write(STDOUT_FILENO, filename, strsize(filename));
-    write(STDOUT_FILENO, "\n", 2);
-
-    write(STDOUT_FILENO, "Command: ", 10);
-    write(STDOUT_FILENO, cmd, strsize(cmd));
-    write(STDOUT_FILENO, "\n", 2);
-    status = mysystem(cmd, &filename);
-    return status;
-}
+#define TESTE "\n\nPassou aqui\n\n"
 
 
 int main()
 {
-    int leitura;
-    int size;
-    char* buffer = "";
-    char cmd[20];
-    char* args[20];
-    /*while(strcmp(*cmd, "termina") != 0){*/
-    size = 0;
-    while(1){
-        write(STDOUT_FILENO, "% ", 3);
-        read(STDIN_FILENO, cmd, 19);
-        cmd[strsize(cmd) - 1] = '\0';
-        write(STDOUT_FILENO, cmd, strsize(cmd));
-        args[size] = cmd;
-        write(STDOUT_FILENO, "\n", 2);
-        write(STDOUT_FILENO, args[size], strsize(args[size]));
-        write(STDOUT_FILENO, "\n", 2);
-        size++;
+    /*char input[256] = "";*/
+    int pid;
+    int input = 1;
+
+    while (/*strcmp(input, "termina")*/ input != 0){
+        printf("%% ");
+        scanf("%d", &input);
+        /*fgets(input, 256, stdin);
+        printf("\n%s\n\n", input);*/
+
+        char *args[] = {"./informa", "teste/mostra.txt"};
+
+        pid = fork();
+
+        if(pid == -1){
+            printf("erro");
+            exit(EXIT_FAILURE);
+        }
+
+        if (pid == 0){
+            execv(args[0], args);
+        } else {
+            wait(NULL);
+            printf("\n\nCorreu bem ou mal %s %s\n\n", args[0], args[1]);
+        }
     }
 
     return 0;
