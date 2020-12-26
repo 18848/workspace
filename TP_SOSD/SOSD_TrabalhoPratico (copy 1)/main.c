@@ -10,17 +10,19 @@
 
 int main()
 {
-    /*char input[256] = "";*/
+    char input[256] = "";
     int pid;
-    int input = 1;
 
-    while (/*strcmp(input, "termina")*/ input != 0){
+    while (strcmp(input, "termina") != 0){
         printf("%% ");
-        scanf("%d", &input);
-        /*fgets(input, 256, stdin);
-        printf("\n%s\n\n", input);*/
+        fgets(input, 256, stdin);
+        printf("\n%s\n\n", );
 
-        char *args[] = {"./informa", "teste/mostra.txt"};
+        strtok(input)
+
+    }
+
+    /*char *args[] = {"informa", "teste/mostra.txt"};
 
         pid = fork();
 
@@ -33,9 +35,8 @@ int main()
             execv(args[0], args);
         } else {
             wait(NULL);
-            printf("\n\nCorreu bem ou mal %s %s\n\n", args[0], args[1]);
-        }
-    }
+            printf("\n\nCorreu bem.\n\n");
+        }*/
 
     return 0;
 }
