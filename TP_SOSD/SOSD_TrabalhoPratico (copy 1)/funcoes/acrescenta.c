@@ -29,9 +29,6 @@ int main(int argc, const char* argv[])
 		return WEXITSTATUS(fd2);
 	}
 
-	printf("F1 --> %s\n", argv[1]);
-	printf("F2 --> %s\n", argv[2]);
-
 	/* Read */
 	leitura = read(fd1, buffer, sizeof(buffer)-1);
 	while(leitura > 0){

@@ -15,14 +15,6 @@ int mysystem(char* cmd, char* const* args){
         exit(EXIT_FAILURE);
     }
 
-/**/
-    write(STDOUT_FILENO, "Command: ", 10);
-    write(STDOUT_FILENO, cmd, strsize(cmd));
-    write(STDOUT_FILENO, "\n", 2);
-    write(STDOUT_FILENO, "Filename: ", 11);
-    write(STDOUT_FILENO, args[1], strsize(args[1]));
-    write(STDOUT_FILENO, "\n", 2);
-/**/
     pid = fork();
 
     if (pid == -1) {

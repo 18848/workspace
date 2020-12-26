@@ -7,31 +7,24 @@
 
 #include "funcoes/utilities.h"
 
-void stringSpliter(char *str);
+void stringSpliter(char *str, char *args[]);
+void restoreArray(char *args[]);
 
 int main()
 {
     char input[256] = "";
-    int pid;
-    char *args[] = {""};
+    int pid, err = 0;
+    char *args[3];
 
-    int size;
+    while (strncmp(input, "termina", 7) != 0){
 
-    while (strcmp(input, "termina") != /*0*/4){
+        restoreArray(args);
+
         printf("%% ");
         fgets(input, 256, stdin);
+        printf("\n");
 
-        stringSpliter(input);
-
-        /*size = strsize(input);
-        input[size] = '/0';
-
-        printf("\t%d \t%d\n\n", strcmp(input, "termina"), size);*/
-
-
-    }
-
-    /*char *args[] = {"informa", "teste/mostra.txt"};
+        stringSpliter(input, args);
 
         pid = fork();
 
@@ -41,23 +34,39 @@ int main()
         }
 
         if (pid == 0){
-            execv(args[0], args);
+            err = execv(args[0], args);
         } else {
             wait(NULL);
-            printf("\n\nCorreu bem.\n\n");
-        }*/
+            printf("\n\nTerminou comando %s com codigo %d.\n\n", args[0], err);
+        }
+    }
+
+
 
     return 0;
 }
 
-void stringSpliter(char *str){
+void stringSpliter(char *str, char *args[]){
+
+    int i=0, size;
 	char *ptr = strtok(str, " ");
 
 	while(ptr != NULL)
 	{
-		printf("'%s'\n", ptr);
+        args[i] = ptr;
 		ptr = strtok(NULL, " ");
+        i++;
 	}
 
-	printf("\n");
+    size = strsize(args[i-1]);
+    args[i-1][size] = '\0';
+}
+
+void restoreArray(char *args[]){
+
+    int i;
+
+    for (i=0; sizeof(*args) != i; i++){
+        args[i] = NULL;
+    }
 }
