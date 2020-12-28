@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 char* getFileType(int mode);
-char* getUserName(int id);
+char* getUsername(int id);
 
 int main(int argc, const char* argv[])
 {
@@ -27,7 +27,7 @@ int main(int argc, const char* argv[])
 
 	printf("Tipo de Ficheiro: %s\n", getFileType(inf.st_mode));
 	printf("I-node: %ld\n", inf.st_ino);
-	printf("Dono: %s\n", getUserName(inf.st_uid));
+	printf("Dono: %s\n", getUsername(inf.st_uid));
 
 	return 0;
 }
@@ -41,11 +41,9 @@ char* getFileType(int mode){
 	else if (S_ISFIFO(mode)){ return ("FIFO/pipe"); }
 	/*if (S_ISSOCK(mode)){ return ("Socket"); }*/
 	
-	else return ("ERRO");
+	else return ("Outro");
 }
 
-char* getUserName(int id){
-	struct passwd *pass;
-	pass = getpwuid(id);
-	return (pass->pw_name);
+char* getUsername(int id){
+	return (getpwuid(id)->pw_name);
 }
