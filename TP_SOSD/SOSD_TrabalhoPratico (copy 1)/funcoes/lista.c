@@ -10,7 +10,7 @@ int main(int argc, const char* argv[])
 {
 	DIR *dir;
 	struct dirent *d;
-	char cwd[200];  /*Usar * */
+	char cwd[200];
 
     if(argc > 2){
 		printf("Too many arguments.\n");
@@ -22,7 +22,6 @@ int main(int argc, const char* argv[])
 
 	if (argc == 1){
 		argv[1] = getcwd(cwd, sizeof(cwd));
-		printf("--> %s\n", argv[1]);
 	}
 
 	if ((dir = opendir(argv[1])) == NULL){

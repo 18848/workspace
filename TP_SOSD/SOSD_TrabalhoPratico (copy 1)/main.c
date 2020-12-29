@@ -4,6 +4,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <signal.h>
 
 #include "funcoes/utilities.h"
 
@@ -13,11 +14,12 @@ void restoreArray(char *args[]);
 int main()
 {
     char input[256] = "";
-    int pid, err = 0;
+    int pid, err = 0, retStatus, flag;
     char *args[3];
 
     while (strncmp(input, "termina", 7) != 0){
 
+        flag = 0;
         restoreArray(args);
 
         printf("%% ");
@@ -35,13 +37,20 @@ int main()
 
         if (pid == 0){
             err = execv(args[0], args);
+
+            if (strncmp(input, "termina", 7) != 0){
+                flag = 1;
+                printf("\n\nComando %s nao reconhecido. Erro %d %d\n\n\n", args[0], WEXITSTATUS(err), flag); /* AQUI A FLAG TA A 1 */
+            }
+
+            exit(-2);
         } else {
-            wait(NULL);
-            printf("\n\nTerminou comando %s com codigo %d.\n\n", args[0], err);
+            wait(&retStatus);
+
+            if((strncmp(input, "termina", 7) != 0) && flag == 0)
+                printf("\n\nTerminou comando %s com codigo %d %d.\n\n\n", args[0], WEXITSTATUS(retStatus), flag); /* AQUI A FLAG TA A O WTF!!!!! */
         }
     }
-
-
 
     return 0;
 }
