@@ -38,14 +38,14 @@ int main()
             err = execv(args[0], args);
 
             if (strncmp(input, "termina", 7) != 0){
-                printf("\n\nComando nao reconhecido", args[0]);
+                printf("Comando nao reconhecido.\n");
             }
 
             exit(err);
         } else {
             wait(&retStatus);
 
-            if((strncmp(input, "termina", 7) != 0) && flag == 0)
+            if(strncmp(input, "termina", 7) != 0)
                 printf("\n\nTerminou comando %s com codigo %d.\n\n\n", args[0], WEXITSTATUS(retStatus));
         }
     }

@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <sys/wait.h>
 #include <fcntl.h> /* Constantes para função open() */
 
@@ -12,16 +13,16 @@ int main(int argc, const char* argv[])
 	long int total = 0;
 	char* resultado;
 	if(argc > 2){
-		write(STDERR_FILENO, "Too many arguments.\n", 21);
+		printf("Too many arguments.\n");
 		exit(EXIT_FAILURE);
 	} else if(argc < 2){
-		write(STDERR_FILENO, "Missing arguments.\n", 20);
+		printf("Missing arguments.\n");
 		exit(EXIT_FAILURE);
 	}
 	fd = open(argv[1], O_RDONLY);
 	/* Check file valid. If not, return error. */
 	if(fd < 0){
-		write(STDERR_FILENO, "Não foi possível abrir o ficheiro.", 37);
+		printf("Não foi possível abrir o ficheiro.");
 		return WEXITSTATUS(fd);
 	}
 	/* Check character -> increment */
@@ -33,9 +34,9 @@ int main(int argc, const char* argv[])
 	/* -1 houve erro */
 	if (leitura == -1) return 1;
 	itostring(total, &resultado);
-	write(STDOUT_FILENO, "Resultado: ", 12);
+	printf("Resultado: ");
 	write(STDOUT_FILENO, resultado, strsize(resultado));
-	write(STDOUT_FILENO, "\n", 2);
+	printf("\n");
 	close(fd);
 	return 0;
 }
