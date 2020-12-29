@@ -14,12 +14,11 @@ void restoreArray(char *args[]);
 int main()
 {
     char input[256] = "";
-    int pid, err = 0, retStatus, flag;
+    int pid, err = 0, retStatus;
     char *args[3];
 
     while (strncmp(input, "termina", 7) != 0){
 
-        flag = 0;
         restoreArray(args);
 
         printf("%% ");
@@ -39,16 +38,15 @@ int main()
             err = execv(args[0], args);
 
             if (strncmp(input, "termina", 7) != 0){
-                flag = 1;
-                printf("\n\nComando %s nao reconhecido. Erro %d %d\n\n\n", args[0], WEXITSTATUS(err), flag); /* AQUI A FLAG TA A 1 */
+                printf("\n\nComando nao reconhecido", args[0]);
             }
 
-            exit(-2);
+            exit(err);
         } else {
             wait(&retStatus);
 
             if((strncmp(input, "termina", 7) != 0) && flag == 0)
-                printf("\n\nTerminou comando %s com codigo %d %d.\n\n\n", args[0], WEXITSTATUS(retStatus), flag); /* AQUI A FLAG TA A O WTF!!!!! */
+                printf("\n\nTerminou comando %s com codigo %d.\n\n\n", args[0], WEXITSTATUS(retStatus));
         }
     }
 
